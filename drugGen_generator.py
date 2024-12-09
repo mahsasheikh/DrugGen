@@ -1,4 +1,5 @@
 import os
+import torch
 import logging
 import pandas as pd
 from datasets import load_dataset
@@ -29,6 +30,10 @@ def load_model_and_tokenizer(model_name):
     try:
         tokenizer = AutoTokenizer.from_pretrained(model_name)
         model = GPT2LMHeadModel.from_pretrained(model_name)
+        # Move the model to CUDA if available
+        if torch.cuda.is_available():
+            logging.info("Moving model to CUDA device.")
+            model = model.to("cuda")
         return model, tokenizer
     except Exception as e:
         logging.error(f"Error loading model and tokenizer: {e}")
@@ -63,6 +68,10 @@ class SMILESGenerator:
         self.tokenizer = tokenizer
         self.uniprot_to_sequence = uniprot_to_sequence
 
+        # Generation device
+        self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        self.model.to(self.device)
+
         # Adjust generation parameters with token IDs
         self.generation_kwargs = self.config["generation_kwargs"]
         self.generation_kwargs["bos_token_id"] = self.tokenizer.bos_token_id
@@ -72,7 +81,7 @@ class SMILESGenerator:
     def generate_smiles(self, sequence, num_generated):
         generated_smiles_set = set()
         prompt = f"<|startoftext|><P>{sequence}<L>"
-        encoded_prompt = self.tokenizer(prompt, return_tensors="pt")["input_ids"]
+        encoded_prompt = self.tokenizer(prompt, return_tensors="pt")["input_ids"].to(self.device)
         retries = 0
 
         logging.info(f"Generating SMILES for sequence: {sequence[:10]}...")
