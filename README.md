@@ -92,13 +92,7 @@ else:
 ## Citation
 If you use this model in your research, please cite our paper:
 ```
-@misc{sheikholeslami2024druggenadvancingdrugdiscovery,
-      title={DrugGen: Advancing Drug Discovery with Large Language Models and Reinforcement Learning Feedback}, 
-      author={Mahsa Sheikholeslami and Navid Mazrouei and Yousof Gheisari and Afshin Fasihi and Matin Irajpour and Ali Motahharynia},
-      year={2024},
-      eprint={2411.14157},
-      archivePrefix={arXiv},
-      primaryClass={q-bio.QM},
-      url={https://arxiv.org/abs/2411.14157}, 
-}
+Sheikholeslami, M., Mazrouei, N., Gheisari, Y., Fasihi, A., Irajpour, M., & Motahharynia, A*. 
+DrugGen enhances drug discovery with large language models and reinforcement learning.
+Sci Rep 15, 13445 (2025). https://doi.org/10.1038/s41598-025-98629-1
 ```
